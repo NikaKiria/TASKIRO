@@ -1,7 +1,9 @@
 # compiled output
 /dist
 /node_modules
-
+# My files
+SECRET.md
+src/env
 # Logs
 logs
 *.log
