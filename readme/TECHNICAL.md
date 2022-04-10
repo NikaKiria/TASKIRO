@@ -3,7 +3,8 @@
     <li>Nest</li>
     <li>Typescript</li>
     <li>Mongodb Atlas</li>
-    <li>Bcrypt</li>
+    <li>Mongoose | Nestjs/mongoose</li>
     <li>Prettier</li>
+    <li>Eslint</li>
     <li>Bcrypt</li>
 </ul>
