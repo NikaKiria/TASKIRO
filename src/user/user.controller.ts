@@ -7,6 +7,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/CreateUser.dto';
+import { LoginUserDto } from './dto/LoginUser.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -18,5 +19,12 @@ export class UserController {
   @UsePipes(ValidationPipe)
   registerUser(@Body() providedUserObject: CreateUserDto) {
     return this.UserService.createUser(providedUserObject);
+  }
+
+  @Post('login')
+  @HttpCode(200)
+  @UsePipes(ValidationPipe)
+  loginUser(@Body() providedLoginObject: LoginUserDto) {
+    return this.UserService.loginUser(providedLoginObject);
   }
 }
