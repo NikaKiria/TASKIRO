@@ -4,6 +4,7 @@
     <li>Typescript</li>
     <li>Mongodb Atlas</li>
     <li>Mongoose | Nestjs/Mongoose</li>
+    <li>JWT</li>
     <li>Prettier</li>
     <li>Eslint</li>
     <li>Bcrypt</li>
