@@ -4,6 +4,8 @@ import { Model } from 'mongoose';
 import { User } from './models/user.model';
 import * as bcrypt from 'bcrypt';
 import * as escapeHTML from 'escape-html';
+import * as jwt from 'jsonwebtoken';
+import { loginObject } from './dto/LoginUser.dto';
 
 @Injectable()
 export class UserService {
@@ -44,6 +46,47 @@ export class UserService {
       }
     } catch (err) {
       err && console.log(err);
+      throw new HttpException('Something went wrong!', 500);
+    }
+  }
+
+  // Login Function
+  async loginUser(providedLoginObject: loginObject) {
+    try {
+      const providedEmail = escapeHTML(providedLoginObject.email);
+      const providedPassword = escapeHTML(providedLoginObject.password);
+
+      // Search for user by email
+      const User = await this.userModel.findOne({ email: providedEmail });
+      if (!User) {
+        throw new HttpException('User is not registered!', 400);
+      }
+      // Check if password is correct
+      const passwordFromDB = User.password;
+      const passwordCheckResult = await bcrypt.compare(
+        providedPassword,
+        passwordFromDB,
+      );
+      if (!passwordCheckResult) {
+        throw new HttpException('Password is not correct!', 400);
+      }
+      // Generate jwt token
+      const token = jwt.sign(providedEmail, process.env.JWT_SECRET);
+      if (!token) {
+        throw new HttpException(
+          'Something went wrong with login service!',
+          500,
+        );
+      }
+      // Return token and user object to client
+      const { password, __v, ...userObjectWithoutPassword } = User['_doc'];
+      const objectToReturn = {
+        Token: token,
+        User: userObjectWithoutPassword,
+      };
+      return objectToReturn;
+    } catch (err) {
+      console.log(err);
       throw new HttpException('Something went wrong!', 500);
     }
   }
