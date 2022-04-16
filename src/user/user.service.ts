@@ -79,6 +79,7 @@ export class UserService {
         );
       }
       // Return token and user object to client
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, __v, ...userObjectWithoutPassword } = User['_doc'];
       const objectToReturn = {
         Token: token,
