@@ -21,7 +21,6 @@ export class UserService {
         cleanedGroupsArray.push(escapeHTML(group)),
       );
       providedUserObject.groups = cleanedGroupsArray;
-      console.log(providedUserObject.groups);
       // Hash password
       const salt = await bcrypt.genSalt(10);
       providedUserObject.password = await bcrypt.hash(
@@ -55,7 +54,6 @@ export class UserService {
     try {
       const providedEmail = escapeHTML(providedLoginObject.email);
       const providedPassword = escapeHTML(providedLoginObject.password);
-
       // Search for user by email
       const User = await this.userModel.findOne({ email: providedEmail });
       if (!User) {
