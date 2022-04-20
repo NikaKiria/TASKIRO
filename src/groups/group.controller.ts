@@ -5,6 +5,7 @@ import {
   UsePipes,
   ValidationPipe,
   Body,
+  Get,
 } from '@nestjs/common';
 import { createGroupDto } from './dto/createGroup.dto';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -19,5 +20,12 @@ export class GroupController {
   @UsePipes(ValidationPipe)
   createGroup(@Body() providedGroupObject: createGroupDto) {
     return this.GroupService.createGroup(providedGroupObject);
+  }
+
+  @Get('my-groups')
+  @HttpCode(200)
+  @UsePipes(ValidationPipe)
+  getMyGroups() {
+    return this.GroupService.getUserGroups();
   }
 }
