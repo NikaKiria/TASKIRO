@@ -57,4 +57,20 @@ export class GroupService {
       );
     }
   }
+
+  // Get all user groups
+  async getUserGroups() {
+    try {
+      const user = this.request.userEmail;
+      // Get groups which has user as a member
+      const groups = await this.groupModel.find({ members: { $in: user } });
+      if (!groups) {
+        throw new HttpException('Cant find any groups!', 400);
+      }
+      return groups;
+    } catch (err) {
+      console.log(err);
+      throw new HttpException('Something went wrong when fetching groups', 500);
+    }
+  }
 }
