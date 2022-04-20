@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { groupModule } from './groups/group.module';
+import { taskModule } from './tasks/task.module';
 import { userModule } from './user/user.module';
 
 @Module({
@@ -19,6 +20,7 @@ import { userModule } from './user/user.module';
     }),
     userModule,
     groupModule,
+    taskModule,
   ],
   controllers: [],
   providers: [],
