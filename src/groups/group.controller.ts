@@ -6,6 +6,7 @@ import {
   ValidationPipe,
   Body,
   Get,
+  Param,
 } from '@nestjs/common';
 import { createGroupDto } from './dto/createGroup.dto';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -27,5 +28,12 @@ export class GroupController {
   @UsePipes(ValidationPipe)
   getMyGroups() {
     return this.GroupService.getUserGroups();
+  }
+
+  @Get(':groupId')
+  @HttpCode(200)
+  @UsePipes(ValidationPipe)
+  getSingleGroup(@Param() params: string) {
+    return this.GroupService.getSingleGroup(params);
   }
 }
