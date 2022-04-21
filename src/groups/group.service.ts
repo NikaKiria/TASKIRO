@@ -73,4 +73,23 @@ export class GroupService {
       throw new HttpException('Something went wrong when fetching groups', 500);
     }
   }
+
+  // Get single group
+  async getSingleGroup(groupId: any) {
+    try {
+      const groupID = escapeHTML(groupId.groupId);
+      // Get group from db
+      const fetchedGroup = await this.groupModel.findById(groupID);
+      if (!fetchedGroup) {
+        throw new HttpException('Cant get group', 400);
+      }
+      return fetchedGroup;
+    } catch (err) {
+      console.log(err);
+      throw new HttpException(
+        'Something went wrong while fetching single group',
+        500,
+      );
+    }
+  }
 }
