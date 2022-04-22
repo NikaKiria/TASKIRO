@@ -6,4 +6,5 @@ export const taskSchema = new mongoose.Schema({
   groupId: { type: String, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
+  status: { type: String, required: true, default: 'Unfinished' },
 });
