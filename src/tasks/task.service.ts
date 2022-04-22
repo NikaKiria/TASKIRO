@@ -107,4 +107,30 @@ export class TaskService {
       );
     }
   }
+
+  // Get all tasks in group
+  async getAllTasks(param: any) {
+    try {
+      const groupId = escapeHTML(param.groupId);
+      const user = this.request.userEmail;
+      // Get group from db
+      const fetchedGroup = await this.groupModel.findById(groupId);
+      if (!fetchedGroup) {
+        throw new HttpException('Group cant be found!', 500);
+      }
+      // Check if user is member of group
+      if (!fetchedGroup.members.includes(user)) {
+        throw new HttpException('You are not a member of the group!', 400);
+      }
+      // Fetch tasks from db
+      const fetchedTasks = await this.taskModel.find({ groupId: groupId });
+      if (!fetchedTasks) {
+        throw new HttpException('Cant get tasks!', 500);
+      }
+      return fetchedTasks;
+    } catch (err) {
+      console.log(err);
+      throw new HttpException('Something went wrong when fetching tasks', 500);
+    }
+  }
 }
