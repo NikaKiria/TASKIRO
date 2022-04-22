@@ -16,3 +16,14 @@ export interface Task {
   title: string;
   description: string;
 }
+
+export interface taskFromDB {
+  id: string;
+  assignee: string;
+  userAssignedTo: string;
+  groupId: string;
+  title: string;
+  description: string;
+  status: string;
+  __v: number;
+}
