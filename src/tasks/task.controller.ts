@@ -7,6 +7,7 @@ import {
   Body,
   Param,
   Put,
+  Get,
 } from '@nestjs/common';
 import { createTaskDto } from './dto/createTask.dto';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,6 +22,13 @@ export class TaskController {
   @UsePipes(ValidationPipe)
   changeStatus(@Param() params: string[]) {
     return this.TaskService.changeTaskStatus(params);
+  }
+
+  @Get('/:groupId/tasks')
+  @HttpCode(200)
+  @UsePipes(ValidationPipe)
+  getAllTasksInGroup(@Param() param: string) {
+    return this.TaskService.getAllTasks(param);
   }
 
   @Post(':groupId/:memberId')
