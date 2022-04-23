@@ -92,4 +92,31 @@ export class GroupService {
       );
     }
   }
+
+  // Get group members
+  async getGroupMembers(param: any) {
+    try {
+      const groupId = escapeHTML(param.groupId);
+      const user = this.request.userEmail;
+      // Fetch group
+      const fetchedGroup = await this.groupModel.findById(groupId);
+      // Check if group is fetched
+      if (!fetchedGroup) {
+        throw new HttpException('Cant fetch group members!', 500);
+      }
+      // Check if user is member of group
+      if (!fetchedGroup.members.includes(user)) {
+        throw new HttpException('You are not a member of the group!', 400);
+      }
+      // Return group members
+      const members = fetchedGroup.members;
+      return members;
+    } catch (err) {
+      console.log(err);
+      throw new HttpException(
+        'Something went wrong when fetching group members!',
+        500,
+      );
+    }
+  }
 }
