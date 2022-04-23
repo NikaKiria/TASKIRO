@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   Post,
   UsePipes,
@@ -27,5 +28,12 @@ export class UserController {
   @UsePipes(ValidationPipe)
   loginUser(@Body() providedLoginObject: LoginUserDto) {
     return this.UserService.loginUser(providedLoginObject);
+  }
+
+  @Get('profile')
+  @HttpCode(200)
+  @UsePipes(ValidationPipe)
+  getProfile() {
+    return this.UserService.getProfile();
   }
 }
