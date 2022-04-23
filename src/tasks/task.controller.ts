@@ -31,6 +31,13 @@ export class TaskController {
     return this.TaskService.getAllTasks(param);
   }
 
+  @Get('/:groupId/mytasks')
+  @HttpCode(200)
+  @UsePipes(ValidationPipe)
+  getMyTasks(@Param() param: string) {
+    return this.TaskService.getMyTasks(param);
+  }
+
   @Post(':groupId/:memberId')
   @HttpCode(201)
   @UsePipes(ValidationPipe)
