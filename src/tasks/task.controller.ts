@@ -45,6 +45,13 @@ export class TaskController {
     return this.TaskService.getMyAssignedTasks(param);
   }
 
+  @Get('/:groupId/tasks/:taskId')
+  @HttpCode(200)
+  @UsePipes(ValidationPipe)
+  getSingleTask(@Param() params: string[]) {
+    return this.TaskService.getSingleTask(params);
+  }
+
   @Post(':groupId/:memberId')
   @HttpCode(201)
   @UsePipes(ValidationPipe)
