@@ -153,4 +153,24 @@ export class TaskService {
       throw new HttpException(err.response, 500);
     }
   }
+
+  // Get users assigned tasks in group
+  async getMyAssignedTasks(param: any) {
+    try {
+      const groupId = escapeHTML(param.groupId);
+      const user = this.request.userEmail;
+      // Get tasks
+      const fetchedTasks = await this.taskModel.find({
+        groupId: groupId,
+        assignee: user,
+      });
+      if (fetchedTasks.length === 0) {
+        throw new HttpException('Cant fetch any tasks', 500);
+      }
+      return fetchedTasks;
+    } catch (err) {
+      console.log(err);
+      throw new HttpException(err.response, 500);
+    }
+  }
 }
