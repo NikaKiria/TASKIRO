@@ -173,4 +173,26 @@ export class TaskService {
       throw new HttpException(err.response, 500);
     }
   }
+
+  // Get single task
+  async getSingleTask(params: any) {
+    try {
+      const groupId = escapeHTML(params.groupId);
+      const taskId = escapeHTML(params.taskId);
+      // Get task
+      const fetchedTask: taskFromDB = await this.taskModel.findById(taskId);
+      // Check if task is fetched
+      if (!fetchedTask) {
+        throw new HttpException('Something went wrong when fetching task', 500);
+      }
+      // Check if task is from right group
+      if (fetchedTask.groupId !== groupId) {
+        throw new HttpException('Wrong group!', 400);
+      }
+      return fetchedTask;
+    } catch (err) {
+      console.log(err);
+      throw new HttpException('Cant fetch task!', 500);
+    }
+  }
 }
