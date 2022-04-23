@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './models/user.model';
@@ -6,10 +6,15 @@ import * as bcrypt from 'bcrypt';
 import * as escapeHTML from 'escape-html';
 import * as jwt from 'jsonwebtoken';
 import { loginObject } from './dto/LoginUser.dto';
+import { REQUEST } from '@nestjs/core';
+import { Request } from 'express';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
+  constructor(
+    @InjectModel('User') private readonly userModel: Model<User>,
+    @Inject(REQUEST) private readonly request: Request,
+  ) {}
 
   // Register user function
   async createUser(providedUserObject: User) {
@@ -87,6 +92,26 @@ export class UserService {
     } catch (err) {
       console.log(err);
       throw new HttpException('Something went wrong!', 500);
+    }
+  }
+
+  // Get profile info
+  async getProfile() {
+    try {
+      const user = this.request.userEmail;
+      // Fetch user
+      const fetchedUser = await this.userModel.findOne({ email: user });
+      if (!fetchedUser) {
+        throw new HttpException('Cant fetch user!', 500);
+      }
+      const { password, ...userObjectToReturn } = fetchedUser['_doc'];
+      return userObjectToReturn;
+    } catch (err) {
+      console.log(err);
+      throw new HttpException(
+        'Something went wrong while fetching user profile!',
+        500,
+      );
     }
   }
 }
