@@ -30,6 +30,13 @@ export class GroupController {
     return this.GroupService.getUserGroups();
   }
 
+  @Get(':groupId/members')
+  @HttpCode(200)
+  @UsePipes(ValidationPipe)
+  getGroupMembers(@Param() param: string) {
+    return this.GroupService.getGroupMembers(param);
+  }
+
   @Get(':groupId')
   @HttpCode(200)
   @UsePipes(ValidationPipe)
